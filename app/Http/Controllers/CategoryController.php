@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -12,8 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories=Category::all();
-        return view('backend.category.index',compact('categories'));
+        $categories = Category::all();
+
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -29,20 +31,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
-            'name'=>'required',
-            'description'=>'required'
+            'name' => 'required',
+            'description' => 'required',
         ]);
+        $imageName = null;
+        if ($request->hasFile('image')) {
+            $imageName = $request->image->store('public');
+        }
+
         Category::create([
-           'name'=> $request->name,
-            'slug'=>$request->name ,
-            'description'=> $request->description,
-            'image'=> $request->image,
-            'status'=>$request->status,
-            'parent_id'=>$request->parent_id ?? 0,
-            'order'=>$request->order ?? 0
+            'name' => $request->name,
+            'slug' => $request->name,
+            'description' => $request->description,
+            'image' => $imageName,
+            'status' => $request->status == 'on' ? 1 : 0,
+            'parent_id' => $request->parent_id ?? 0,
+            'order' => $request->order ?? 0,
         ]);
-       flash_message('Category Created','success');
+        flash_message('Category Created', 'success');
         return back();
     }
 
@@ -59,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('backend.category.edit',compact('category'));
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -69,16 +77,23 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'description' => 'required'
+            'description' => 'required',
         ]);
+        $imageName = $category->image;
+        if ($request->hasFile('image')) {
+            $imageName = $request->image->store('public');
+            Storage::delete($category->image);
+        }
         $category->update([
             'name' => $request->name,
+            'slug' => $request->name,
             'description' => $request->description,
-            'image' => $request->image,
-            'status' => $request->status,
+            'image' => $imageName,
+            'status' => $request->status == 'on' ? 1 : 0,
             'parent_id' => $request->parent_id ?? 0,
-            'order' => $request->order ?? 0
+            'order' => $request->order ?? 0,
         ]);
+
         flash_message('Category Created', 'success');
         return back();
     }
@@ -88,7 +103,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if($category){
+        if ($category) {
             $category->delete();
         }
         return back();

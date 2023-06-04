@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
+    protected $guarded=[];
+
+
+    public function category(){
+       return $this->hasOne(Category::class,'id','category_id');
+    }
+    public function user(){
+        return $this->hasOne(User::class,'id','author_id');
+     }
+     public function approver(){
+        return $this->hasOne(User::class,'id','approved_by');
+     }
 }

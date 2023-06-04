@@ -20,7 +20,10 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            
+            $table->string('referral_code')->unique()->nullable();
+            $table->double ('point')->default(0);
+            $table->integer('referred_by')->nullable();
+            $table->json('referred_to')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

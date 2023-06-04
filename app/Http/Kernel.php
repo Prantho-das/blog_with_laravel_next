@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ReactRequestHandler;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -21,6 +22,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // ReactRequestHandler::class
+
     ];
 
     /**
@@ -36,12 +39,15 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // ReactRequestHandler::class
+
         ],
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // ReactRequestHandler::class
         ],
     ];
 
@@ -60,7 +66,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \App\Http\Middleware\ValidateSignature::class,
+    'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];

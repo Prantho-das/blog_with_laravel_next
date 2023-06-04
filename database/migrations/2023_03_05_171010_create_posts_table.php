@@ -31,6 +31,10 @@ return new class extends Migration
             $table->string('post_type')->nullable();
             $table->json('location')->nullable();
             $table->json('meta')->nullable();
+
+            $table->integer('reading_given_point')->default(0);
+            $table->boolean('premium_content')->default(0);
+            $table->integer('reading_want_point')->default(0);
             $table->timestamps();
         });
     }
