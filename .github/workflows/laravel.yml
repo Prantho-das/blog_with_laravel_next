@@ -29,5 +29,4 @@ jobs:
     - name:  dependencies build
       run: npm run build
     - name: cache:clear
-      run: |
-        php artisan cache:clear
+      run: php artisan cache:clear
