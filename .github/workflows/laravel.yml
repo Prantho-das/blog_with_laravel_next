@@ -20,8 +20,7 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: delete composer.lock
       run: rm -rf composer.lock
-    - name : Install dependencies
-      run: composer install --no-interaction --no-suggest --prefer-dist
+
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions
