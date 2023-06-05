@@ -23,22 +23,22 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         Role::create(['name'=>'author']);
-
         Role::create(['name'=>'admin']);
+ Role::create(['name'=>'editor']);
+
         $admin=User::create([
             'name'=>'admin',
             'email'=>'admin@gmail.com',
             'password'=>Hash::make(12345678910)
         ]);
-        $admin->syncRole('admin');
-        Role::create(['name'=>'editor']);
+        $admin->assignRole('admin');
+
         $editor=User::create([
             'name'=>'editor',
             'email'=>'editor@gmail.com',
             'password'=>Hash::make(12345678910)
         ]);
-        $editor->syncRole('editor');
-
+        $editor->assignRole('editor');
 
     }
 }
