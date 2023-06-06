@@ -80,7 +80,7 @@
             </div>
         </div>
         <footer class="footer">
-            <div><a href="">prantho ko</a><a href="">Created By </a> &copy;
+            <div><a href="">prantho</a><a href="">Created By </a> &copy;
                 <script>
                     document.write(new Date().getFullYear())
                 </script>

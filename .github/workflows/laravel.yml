@@ -12,9 +12,14 @@ jobs:
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: "8.1"
-      - uses: actions/checkout@v3
-      - name: run script
-        run : git pull origin master
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ec2-3-142-255-196.us-east-2.compute.amazonaws.com
+          username: ubuntu
+          password: ${{ secrets.SERVER_SSH }}
+          port: 22
+          script: |
+              git pull origin master
       - name: Install Dependencies
         run: composer install --no-scripts --no-progress --prefer-dist
       - name: Directory Permissions
