@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          
             #Now we have got the access of EC2 and we will start the deploy .
             git config --global --add safe.directory '*' &&
             cd /var/www/html/blog_with_laravel_next &&sudo chmod +777 .git&&  sudo chmod +777 .git/* && git pull origin master
