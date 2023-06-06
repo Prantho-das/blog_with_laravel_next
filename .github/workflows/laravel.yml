@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.SERVER_SSH }}
           port: 22
           script: |
-              git pull origin master
+            git pull origin master
       - name: Install Dependencies
         run: composer install --no-scripts --no-progress --prefer-dist
       - name: Directory Permissions
