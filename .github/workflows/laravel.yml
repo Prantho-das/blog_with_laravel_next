@@ -5,28 +5,16 @@ on:
     branches: [master]
 
 jobs:
-  #First we will see the application build or not , then we will deploy in EC2
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
   Deploy:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - name: Deploy in EC2
-        env:
-          PRIVATE_KEY: ${{ secrets.SERVER_SSH }}
-          HOSTNAME: ec2-18-212-38-121.compute-1.amazonaws.com
-          USER_NAME: ubuntu
-
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-            #Now we have got the access of EC2 and we will start the deploy .
-            git config --global --add safe.directory '*' &&
-            cd /var/www/html/blog_with_laravel_next &&sudo chmod +777 .git&&  sudo chmod +777 .git/* && git pull origin master
-          '
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USER_NAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: "cd /var/www/html/ && ./scripts/deploy.sh"
